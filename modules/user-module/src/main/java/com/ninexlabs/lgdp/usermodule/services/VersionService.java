@@ -7,7 +7,10 @@ import org.springframework.stereotype.Component;
 public class VersionService
 {
 	
-	public static final String BASE_PATH = "/api/v1/users";
+	/**
+	 * Module API base path
+	 */
+	public static final String BASE_PATH = "/api/v1/users/";
 	
 	/**
 	 * Get the version of the module
