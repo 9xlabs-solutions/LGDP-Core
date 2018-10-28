@@ -1,3 +1,5 @@
 rootProject.name = 'lgdp-core'
 
+include 'commons'
+include 'modules:user-module'
 include 'api-gateway'
