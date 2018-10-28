@@ -3,6 +3,7 @@ package com.ninexlabs.lgdp.usermodule.models;
 import com.ninexlabs.lgdp.commons.models.BaseModel;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
@@ -12,9 +13,11 @@ public class User extends BaseModel
 {
 	
 	@NotNull(message = "Name cannot be empty")
-	@Size(min = 3, max = 10, message = "Baane hutta karanna")
+	@Size(min = 3, max = 10)
 	private String name;
 	
+	@Email
+	@NotNull
 	private String email;
 	
 	private String contact;

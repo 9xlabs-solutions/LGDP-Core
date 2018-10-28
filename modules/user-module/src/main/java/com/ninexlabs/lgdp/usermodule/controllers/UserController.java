@@ -1,5 +1,6 @@
 package com.ninexlabs.lgdp.usermodule.controllers;
 
+import com.ninexlabs.lgdp.commons.utils.ErrorMessageFormatter;
 import com.ninexlabs.lgdp.usermodule.models.User;
 import com.ninexlabs.lgdp.usermodule.services.UserService;
 import com.ninexlabs.lgdp.usermodule.services.VersionService;
