@@ -1,16 +1,20 @@
 package com.ninexlabs.lgdp.usermodule.services;
 
+import com.ninexlabs.lgdp.commons.LGDPException;
+import com.ninexlabs.lgdp.commons.models.UserDetails;
 import com.ninexlabs.lgdp.usermodule.models.User;
 import com.ninexlabs.lgdp.usermodule.repositories.UserRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
+import java.util.ArrayList;
 
 @Component
 public class UserService implements IUserService
 {
 	
+	// user repository
 	private UserRepository userRepository;
 	
 	@Autowired
@@ -20,50 +24,75 @@ public class UserService implements IUserService
 	}
 	
 	@Override
-	public Iterable<User> all()
+	public Iterable<UserDetails> all()
 	{
-		return this.userRepository.findAll();
-	}
-	
-	@Override
-	public Optional<User> get(long id)
-	{
-		return this.userRepository.findById(id);
-	}
-	
-	@Override
-	public synchronized User store(User user)
-	{
-		return this.userRepository.save(user);
-	}
-	
-	@Override
-	public synchronized User update(User user)
-	{
-		// get the user
-		Optional<User> usero = get(user.getId());
 		
-		// delete only if the object exists
-		if (usero.isPresent())
+		Iterable<User> users = this.userRepository.findAll();
+		
+		Iterable<UserDetails> formattedUserDetails = new ArrayList<>();
+		
+		for(User user: users)
 		{
-			return this.userRepository.save(usero.get());
+			((ArrayList<UserDetails>) formattedUserDetails).add(user.getUserDetails());
+		}
+		
+		return formattedUserDetails;
+	}
+	
+	@Override
+	public UserDetails get(long id)
+	{
+		
+		User user = this.userRepository.findById(id).orElse(null);
+		
+		if (user != null)
+		{
+			return user.getUserDetails();
 		}
 		
 		return null;
+		
+	}
+	
+	@Override
+	public synchronized UserDetails store(UserDetails details)
+	{
+		return updateOrSaveUser(details);
+	}
+	
+	@Override
+	public synchronized UserDetails update(UserDetails details)
+	{
+		return updateOrSaveUser(details);
 	}
 	
 	@Override
 	public void delete(long id)
 	{
-		
-		// get the user
-		Optional<User> user = get(id);
-		
-		// delete only if the object exists
-		if (user.isPresent())
+		this.userRepository.deleteById(id);
+	}
+	
+	/**
+	 * Add or update user details
+	 *
+	 * @param details
+	 * @return
+	 */
+	private UserDetails updateOrSaveUser(UserDetails details)
+	{
+		if (details == null)
 		{
-			this.userRepository.delete(user.get());
+			throw new LGDPException(LGDPException.ExceptionType.INVALID_DATA_EXCEPTION, "No User Details");
 		}
 		
+		User user = new User();
+		
+		BeanUtils.copyProperties(details, user);
+		
+		user = this.userRepository.save(user);
+		
+		BeanUtils.copyProperties(user, details);
+		
+		return details;
 	}
 }

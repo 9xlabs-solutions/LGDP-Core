@@ -1,14 +1,12 @@
 package com.ninexlabs.lgdp.usermodule.controllers;
 
-import com.ninexlabs.lgdp.commons.utils.ErrorMessageFormatter;
+import com.ninexlabs.lgdp.commons.models.UserDetails;
 import com.ninexlabs.lgdp.usermodule.models.User;
 import com.ninexlabs.lgdp.usermodule.services.UserService;
 import com.ninexlabs.lgdp.usermodule.services.VersionService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -44,9 +42,11 @@ public class UserController
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET, path = "{id}")
-	public User show(@PathVariable long id)
+	public ResponseEntity<UserDetails> show(@PathVariable long id)
 	{
-		return this.userService.get(id).orElse(null);
+		UserDetails userDetails = this.userService.get(id);
+		
+		return new ResponseEntity<>(userDetails, HttpStatus.OK);
 	}
 	
 	/**
@@ -56,23 +56,11 @@ public class UserController
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.POST, path = "")
-	public ResponseEntity store(@RequestBody @Valid User request, Errors err)
+	public ResponseEntity<UserDetails> store(@RequestBody @Valid UserDetails request)
 	{
+		UserDetails userDetails = this.userService.store(request);
 		
-		if (err.hasErrors())
-		{
-			return new ResponseEntity<>(err.getAllErrors(), HttpStatus.BAD_REQUEST);
-		}
-		
-		return ResponseEntity.ok().build();
-//
-//		User user = new User();
-//
-//		BeanUtils.copyProperties(request, user);
-//
-//		user = this.userService.store(user);
-//
-//		return new ResponseEntity<User>(user, HttpStatus.CREATED);
+		return new ResponseEntity<>(userDetails, HttpStatus.CREATED);
 	}
 	
 	/**
@@ -82,14 +70,12 @@ public class UserController
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.PATCH, path = "{id}")
-	public ResponseEntity<User> update(@PathVariable("id") User targetUser, @RequestBody User request)
+	public ResponseEntity<UserDetails> update(@PathVariable("id") UserDetails targetUser, @RequestBody User request)
 	{
 		
-		BeanUtils.copyProperties(request, targetUser, "id", "created_at");
+		UserDetails userDetails = this.userService.update(targetUser);
 		
-		User user = this.userService.update(targetUser);
-		
-		return new ResponseEntity<User>(user, HttpStatus.OK);
+		return new ResponseEntity<>(userDetails, HttpStatus.OK);
 	}
 	
 	/**
@@ -103,7 +89,7 @@ public class UserController
 	{
 		this.userService.delete(id);
 		
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 }

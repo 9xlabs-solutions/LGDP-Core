@@ -1,5 +1,6 @@
 package com.ninexlabs.lgdp.usermodule.services;
 
+import com.ninexlabs.lgdp.commons.models.UserDetails;
 import com.ninexlabs.lgdp.usermodule.models.User;
 
 import java.util.Optional;
@@ -7,13 +8,13 @@ import java.util.Optional;
 public interface IUserService
 {
 	
-	Iterable<User> all();
+	Iterable<UserDetails> all();
 	
-	Optional<User> get(long id);
+	UserDetails get(long id);
 	
-	User store(User user);
+	UserDetails store(UserDetails user);
 	
-	User update(User user);
+	UserDetails update(UserDetails user);
 	
 	void delete(long id);
 

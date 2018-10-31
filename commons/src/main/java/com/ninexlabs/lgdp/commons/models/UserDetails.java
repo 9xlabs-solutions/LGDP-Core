@@ -1,5 +1,65 @@
 package com.ninexlabs.lgdp.commons.models;
 
-public class UserDetails
+import java.util.Date;
+
+public class UserDetails extends BaseModelDetails
 {
+	
+	private String name, email, address, phone;
+	
+	private Date dob;
+	
+	public UserDetails()
+	{
+	}
+	
+	public String getName()
+	{
+		return name;
+	}
+	
+	public void setName(String name)
+	{
+		this.name = name;
+	}
+	
+	public String getEmail()
+	{
+		return email;
+	}
+	
+	public void setEmail(String email)
+	{
+		this.email = email;
+	}
+	
+	public String getAddress()
+	{
+		return address;
+	}
+	
+	public void setAddress(String address)
+	{
+		this.address = address;
+	}
+	
+	public String getPhone()
+	{
+		return phone;
+	}
+	
+	public void setPhone(String phone)
+	{
+		this.phone = phone;
+	}
+	
+	public Date getDob()
+	{
+		return dob;
+	}
+	
+	public void setDob(Date dob)
+	{
+		this.dob = dob;
+	}
 }

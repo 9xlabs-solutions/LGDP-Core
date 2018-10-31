@@ -1,6 +1,7 @@
 package com.ninexlabs.lgdp.usermodule.models;
 
 import com.ninexlabs.lgdp.commons.models.BaseModel;
+import com.ninexlabs.lgdp.commons.models.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -111,5 +112,19 @@ public class User extends BaseModel
 	public void setPermissions(Collection<Permission> permissions)
 	{
 		this.permissions = permissions;
+	}
+	
+	public UserDetails getUserDetails()
+	{
+		UserDetails userDetails = new UserDetails();
+		
+		userDetails.setId(this.getId());
+		userDetails.setName(this.getName());
+		userDetails.setEmail(this.getEmail());
+		userDetails.setAddress(this.getAddress());
+		userDetails.setCreated_at(this.getCreated_at());
+		userDetails.setUpdated_at(this.getUpdated_at());
+		
+		return userDetails;
 	}
 }
