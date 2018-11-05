@@ -1,24 +1,42 @@
 package com.ninexlabs.lgdp.usermodule.config;
 
 
+import com.ninexlabs.lgdp.usermodule.services.UserService;
 import com.ninexlabs.lgdp.usermodule.services.VersionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-@EnableWebSecurity
 @Configuration
+@EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
 {
-
-	private BCryptPasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private UserService userService;
+	
+	
 	
 	@Override
-	protected void configure(HttpSecurity http) throws Exception
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception
 	{
-		//http.authorizeRequests().antMatchers(VersionService.BASE_PATH)
+	//	auth.userDetailsService()
 	}
+	
+	@Override
+	protected void configure(HttpSecurity httpSecurity) throws Exception
+	{
+		httpSecurity
+				.authorizeRequests()
+				.antMatchers(VersionService.BASE_PATH + "*")
+				.permitAll();
+		
+		httpSecurity.csrf().disable();
+	}
+	
+	
 }
+

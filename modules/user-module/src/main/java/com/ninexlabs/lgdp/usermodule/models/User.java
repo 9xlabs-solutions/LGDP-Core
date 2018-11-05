@@ -17,6 +17,8 @@ public class User extends BaseModel
 	@Size(min = 3, max = 10)
 	private String name;
 	
+	private String username;
+	
 	@Email
 	@NotNull
 	private String email;
