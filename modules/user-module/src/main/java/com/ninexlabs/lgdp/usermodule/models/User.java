@@ -1,6 +1,8 @@
 package com.ninexlabs.lgdp.usermodule.models;
 
 import com.ninexlabs.lgdp.commons.models.BaseModel;
+import com.ninexlabs.lgdp.commons.models.Permission;
+import com.ninexlabs.lgdp.commons.models.Role;
 import com.ninexlabs.lgdp.commons.models.UserDetails;
 
 import javax.persistence.*;
@@ -19,6 +21,8 @@ public class User extends BaseModel
 	
 	private String username;
 	
+	private String remeber_token;
+	
 	@Email
 	@NotNull
 	private String email;
@@ -29,7 +33,7 @@ public class User extends BaseModel
 	
 	private boolean isActive;
 	
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "users_roles",
 			joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
 			inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))

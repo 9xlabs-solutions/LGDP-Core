@@ -1,4 +1,4 @@
-package com.ninexlabs.lgdp.usermodule.models;
+package com.ninexlabs.lgdp.commons.models;
 
 import com.ninexlabs.lgdp.commons.models.BaseModel;
 

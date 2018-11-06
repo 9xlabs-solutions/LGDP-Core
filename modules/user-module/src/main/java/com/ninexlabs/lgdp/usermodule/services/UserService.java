@@ -74,6 +74,20 @@ public class UserService implements IUserService
 		this.userRepository.deleteById(id);
 	}
 	
+	public UserDetails findUserByUsername(String username)
+	{
+		User user = this.userRepository.findUserByUsernameAndActiveIsTrue(username).orElse(null);
+		
+		if (user == null)
+		{
+			return null;
+		}
+		else
+		{
+			return user.getUserDetails();
+		}
+	}
+	
 	/**
 	 * Add or update user details
 	 *

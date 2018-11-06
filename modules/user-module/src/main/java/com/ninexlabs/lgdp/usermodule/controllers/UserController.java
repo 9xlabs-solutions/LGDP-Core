@@ -92,4 +92,24 @@ public class UserController
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+	/**
+	 * UTIL Methods
+	 */
+	
+	
+	/**
+	 * Find a user by email or password
+	 *
+	 * @return
+	 */
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<UserDetails> findUserByEmailOrUsername(@RequestParam("username") String username)
+	{
+		
+		UserDetails user = this.userService.findUserByUsername(username);
+		
+		return new ResponseEntity<UserDetails>(user, HttpStatus.OK);
+		
+	}
+	
 }
