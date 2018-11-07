@@ -1,7 +1,7 @@
 package com.ninexlabs.lgdp.usermodule.controllers;
 
 import com.ninexlabs.lgdp.commons.models.UserModelDetails;
-import com.ninexlabs.lgdp.usermodule.models.User;
+import com.ninexlabs.lgdp.commons.models.User;
 import com.ninexlabs.lgdp.usermodule.services.UserService;
 import com.ninexlabs.lgdp.usermodule.services.VersionService;
 import org.springframework.beans.factory.annotation.Autowired;

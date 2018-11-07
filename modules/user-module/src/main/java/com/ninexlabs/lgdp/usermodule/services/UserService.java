@@ -1,8 +1,8 @@
 package com.ninexlabs.lgdp.usermodule.services;
 
 import com.ninexlabs.lgdp.commons.LGDPException;
+import com.ninexlabs.lgdp.commons.models.User;
 import com.ninexlabs.lgdp.commons.models.UserModelDetails;
-import com.ninexlabs.lgdp.usermodule.models.User;
 import com.ninexlabs.lgdp.usermodule.repositories.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,14 +55,17 @@ public class UserService implements IUserService {
         Optional<User> user = this.userRepository.findById(details.getId());
 
         if (!user.isPresent()) {
-            throw new LGDPException(LGDPException.ExceptionType.ALREADY_EXIST_EXCEPTION, "Account does not exists");
+
+
+            User new_user = new User();
+
+            BeanUtils.copyProperties(details, new_user);
+
+            return this.saveUser(new_user);
+
         }
 
-        User new_user = new User();
-
-        BeanUtils.copyProperties(details, new_user);
-
-        return this.saveUser(new_user);
+        throw new LGDPException(LGDPException.ExceptionType.ALREADY_EXIST_EXCEPTION, "Account does not exists");
     }
 
     @Override
@@ -96,7 +99,7 @@ public class UserService implements IUserService {
      * @return
      */
     public UserModelDetails findUserByUsername(String username) {
-        User user = this.userRepository.findUserByUsernameAndActiveIsTrue(username)
+        User user = this.userRepository.findUserByUsernameAndIsActiveIsTrue(username)
                 .orElseThrow(() ->
                         new LGDPException(LGDPException.ExceptionType.ACCOUNT_NOT_EXISTS, "Account does not exists"));
 

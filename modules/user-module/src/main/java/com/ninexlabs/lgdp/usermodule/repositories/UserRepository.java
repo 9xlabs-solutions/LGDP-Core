@@ -1,6 +1,6 @@
 package com.ninexlabs.lgdp.usermodule.repositories;
 
-import com.ninexlabs.lgdp.usermodule.models.User;
+import com.ninexlabs.lgdp.commons.models.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
@@ -13,6 +13,6 @@ public interface UserRepository extends CrudRepository<User, Long>
 	 *
 	 * @return User
 	 */
-	Optional<User> findUserByUsernameAndActiveIsTrue(String username);
+	Optional<User> findUserByUsernameAndIsActiveIsTrue(String username);
 	
 }

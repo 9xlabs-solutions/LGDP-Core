@@ -1,18 +1,15 @@
-package com.ninexlabs.lgdp.usermodule.models;
+package com.ninexlabs.lgdp.commons.models;
 
-import com.ninexlabs.lgdp.commons.models.BaseModel;
-import com.ninexlabs.lgdp.commons.models.Permission;
-import com.ninexlabs.lgdp.commons.models.Role;
-import com.ninexlabs.lgdp.commons.models.UserModelDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
-@Entity(name = "users")
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = "username"))
+@Entity
+@Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 public class User extends BaseModel {
 
     @NotNull(message = "Name cannot be empty")
@@ -32,22 +29,18 @@ public class User extends BaseModel {
 
     private String address;
 
+    private String password;
+
     private boolean isActive;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    @ElementCollection(targetClass = Role.class)
-    private Collection<Role> roles;
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = Role.class)
+    @JoinTable(name = "user_roles",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
+    private Set<Role> roles = new HashSet<>();
 
-
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = Permission.class)
-    @JoinTable(name = "user_permissions",
-            joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id"))
-    @ElementCollection(targetClass = Permission.class)
-    private Collection<Permission> permissions;
+//    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
+//    private Set<Permission> permissions = new HashSet<>();
 
     public User() {
     }
@@ -84,37 +77,33 @@ public class User extends BaseModel {
         this.address = address;
     }
 
-    public boolean isActive() {
+    public boolean getIsActive() {
         return isActive;
     }
 
-    public void setActive(boolean active) {
+    public void setIsActive(boolean active) {
         isActive = active;
-    }
-
-    public Collection<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Collection<Role> roles) {
-        this.roles = roles;
-    }
-
-    public Collection<Permission> getPermissions() {
-        return permissions;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setPermissions(Collection<Permission> permissions) {
-        this.permissions = permissions;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
+
+//    public Set<Permission> getPermissions() {
+//        return permissions;
+//    }
+//
+//    public void setPermissions(Set<Permission> permissions) {
+//        this.permissions = permissions;
+//    }
 
     public UserModelDetails getUserModelDetails() {
         UserModelDetails userModelDetails = new UserModelDetails();
@@ -128,5 +117,13 @@ public class User extends BaseModel {
         userModelDetails.setUpdated_at(this.getUpdated_at());
 
         return userModelDetails;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
