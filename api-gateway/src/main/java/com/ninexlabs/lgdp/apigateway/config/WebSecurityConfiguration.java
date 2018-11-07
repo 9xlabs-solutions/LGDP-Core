@@ -39,5 +39,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter
 						"/**/*.js")
 					.permitAll()
 					.and();
+
 	}
 }

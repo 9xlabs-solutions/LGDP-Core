@@ -1,5 +1,6 @@
 package com.ninexlabs.lgdp.apigateway.security;
 
+import com.ninexlabs.lgdp.commons.models.UserModelDetails;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,8 +19,8 @@ public class CustomUserService implements UserDetailsService
 		
 		this.restTemplate = new RestTemplate();
 		
-		com.ninexlabs.lgdp.commons.models.UserDetails user = restTemplate
-				.getForObject(URL, com.ninexlabs.lgdp.commons.models.UserDetails.class);
+		UserModelDetails user = restTemplate
+				.getForObject(URL, UserModelDetails.class);
 		
 		if (user == null)
 		{

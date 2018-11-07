@@ -1,6 +1,6 @@
 package com.ninexlabs.lgdp.usermodule.controllers;
 
-import com.ninexlabs.lgdp.commons.models.UserDetails;
+import com.ninexlabs.lgdp.commons.models.UserModelDetails;
 import com.ninexlabs.lgdp.usermodule.models.User;
 import com.ninexlabs.lgdp.usermodule.services.UserService;
 import com.ninexlabs.lgdp.usermodule.services.VersionService;
@@ -42,11 +42,11 @@ public class UserController
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET, path = "{id}")
-	public ResponseEntity<UserDetails> show(@PathVariable long id)
+	public ResponseEntity<UserModelDetails> show(@PathVariable long id)
 	{
-		UserDetails userDetails = this.userService.get(id);
+		UserModelDetails userModelDetails = this.userService.get(id);
 		
-		return new ResponseEntity<>(userDetails, HttpStatus.OK);
+		return new ResponseEntity<>(userModelDetails, HttpStatus.OK);
 	}
 	
 	/**
@@ -56,11 +56,11 @@ public class UserController
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.POST, path = "")
-	public ResponseEntity<UserDetails> store(@RequestBody @Valid UserDetails request)
+	public ResponseEntity<UserModelDetails> store(@RequestBody @Valid UserModelDetails request)
 	{
-		UserDetails userDetails = this.userService.store(request);
+		UserModelDetails userModelDetails = this.userService.store(request);
 		
-		return new ResponseEntity<>(userDetails, HttpStatus.CREATED);
+		return new ResponseEntity<>(userModelDetails, HttpStatus.CREATED);
 	}
 	
 	/**
@@ -70,12 +70,12 @@ public class UserController
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.PATCH, path = "{id}")
-	public ResponseEntity<UserDetails> update(@PathVariable("id") UserDetails targetUser, @RequestBody User request)
+	public ResponseEntity<UserModelDetails> update(@PathVariable("id") UserModelDetails targetUser, @RequestBody User request)
 	{
 		
-		UserDetails userDetails = this.userService.update(targetUser);
+		UserModelDetails userModelDetails = this.userService.update(targetUser);
 		
-		return new ResponseEntity<>(userDetails, HttpStatus.OK);
+		return new ResponseEntity<>(userModelDetails, HttpStatus.OK);
 	}
 	
 	/**
@@ -95,21 +95,5 @@ public class UserController
 	/**
 	 * UTIL Methods
 	 */
-	
-	
-	/**
-	 * Find a user by email or password
-	 *
-	 * @return
-	 */
-	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<UserDetails> findUserByEmailOrUsername(@RequestParam("username") String username)
-	{
-		
-		UserDetails user = this.userService.findUserByUsername(username);
-		
-		return new ResponseEntity<UserDetails>(user, HttpStatus.OK);
-		
-	}
 	
 }

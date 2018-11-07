@@ -1,6 +1,7 @@
 package com.ninexlabs.lgdp.apigateway.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.ninexlabs.lgdp.commons.models.UserModelDetails;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -44,18 +45,18 @@ public class UserPrincipal implements UserDetails
 		this.authorities = authorities;
 	}
 	
-	public static UserPrincipal create(com.ninexlabs.lgdp.commons.models.UserDetails userDetails)
+	public static UserPrincipal create(UserModelDetails userModelDetails)
 	{
-		List<GrantedAuthority> authorities = userDetails.getRoles().stream().map(role ->
+		List<GrantedAuthority> authorities = userModelDetails.getRoles().stream().map(role ->
 				new SimpleGrantedAuthority(role.getName())
 		).collect(Collectors.toList());
 		
 		return new UserPrincipal(
-				userDetails.getId(),
-				userDetails.getName(),
-				userDetails.getUsername(),
-				userDetails.getEmail(),
-				userDetails.getPassword(),
+				userModelDetails.getId(),
+				userModelDetails.getName(),
+				userModelDetails.getUsername(),
+				userModelDetails.getEmail(),
+				userModelDetails.getPassword(),
 				authorities
 		);
 	}

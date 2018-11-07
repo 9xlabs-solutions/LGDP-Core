@@ -3,7 +3,7 @@ package com.ninexlabs.lgdp.commons.models;
 import java.util.Collection;
 import java.util.Date;
 
-public class UserDetails extends BaseModelDetails
+public class UserModelDetails extends BaseModelDetails
 {
 	
 	private String name, email, address, phone;
@@ -17,7 +17,7 @@ public class UserDetails extends BaseModelDetails
 	private Collection<Role> roles, permission;
 	
 	
-	public UserDetails()
+	public UserModelDetails()
 	{
 	}
 	

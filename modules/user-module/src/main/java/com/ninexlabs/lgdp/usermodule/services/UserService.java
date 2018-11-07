@@ -1,115 +1,119 @@
 package com.ninexlabs.lgdp.usermodule.services;
 
 import com.ninexlabs.lgdp.commons.LGDPException;
-import com.ninexlabs.lgdp.commons.models.UserDetails;
+import com.ninexlabs.lgdp.commons.models.UserModelDetails;
 import com.ninexlabs.lgdp.usermodule.models.User;
 import com.ninexlabs.lgdp.usermodule.repositories.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
 @Component
-public class UserService implements IUserService
-{
-	
-	// user repository
-	private UserRepository userRepository;
-	
-	@Autowired
-	public UserService(UserRepository userRepository)
-	{
-		this.userRepository = userRepository;
-	}
-	
-	@Override
-	public Iterable<UserDetails> all()
-	{
-		
-		Iterable<User> users = this.userRepository.findAll();
-		
-		Iterable<UserDetails> formattedUserDetails = new ArrayList<>();
-		
-		for(User user: users)
-		{
-			((ArrayList<UserDetails>) formattedUserDetails).add(user.getUserDetails());
-		}
-		
-		return formattedUserDetails;
-	}
-	
-	@Override
-	public UserDetails get(long id)
-	{
-		
-		User user = this.userRepository.findById(id).orElse(null);
-		
-		if (user != null)
-		{
-			return user.getUserDetails();
-		}
-		
-		return null;
-		
-	}
-	
-	@Override
-	public synchronized UserDetails store(UserDetails details)
-	{
-		return updateOrSaveUser(details);
-	}
-	
-	@Override
-	public synchronized UserDetails update(UserDetails details)
-	{
-		return updateOrSaveUser(details);
-	}
-	
-	@Override
-	public void delete(long id)
-	{
-		this.userRepository.deleteById(id);
-	}
-	
-	public UserDetails findUserByUsername(String username)
-	{
-		User user = this.userRepository.findUserByUsernameAndActiveIsTrue(username).orElse(null);
-		
-		if (user == null)
-		{
-			return null;
-		}
-		else
-		{
-			return user.getUserDetails();
-		}
-	}
-	
-	/**
-	 * Add or update user details
-	 *
-	 * @param details
-	 * @return
-	 */
-	private UserDetails updateOrSaveUser(UserDetails details)
-	{
-		if (details == null)
-		{
-			throw new LGDPException(LGDPException.ExceptionType.INVALID_DATA_EXCEPTION, "No User Details");
-		}
-		
-		User user = new User();
-		
-		BeanUtils.copyProperties(details, user);
-		
-		user = this.userRepository.save(user);
-		
-		BeanUtils.copyProperties(user, details);
-		
-		return details;
-	}
-	
+public class UserService implements IUserService {
+
+    // user repository
+    private UserRepository userRepository;
+
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    public Iterable<UserModelDetails> all() {
+
+        Iterable<User> users = this.userRepository.findAll();
+
+        ArrayList<UserModelDetails> formattedUserDetails = new ArrayList<>();
+
+        for (User user : users) {
+            formattedUserDetails.add(user.getUserModelDetails());
+        }
+
+        return formattedUserDetails;
+    }
+
+    @Override
+    public UserModelDetails get(long id) {
+
+        Optional<User> user = this.userRepository.findById(id);
+
+        if (user.isPresent()) {
+            return user.get().getUserModelDetails();
+        }
+
+        throw new LGDPException(LGDPException.ExceptionType.ACCOUNT_NOT_EXISTS, "Account does not exists");
+
+    }
+
+    @Override
+    public synchronized UserModelDetails store(UserModelDetails details) {
+
+        Optional<User> user = this.userRepository.findById(details.getId());
+
+        if (!user.isPresent()) {
+            throw new LGDPException(LGDPException.ExceptionType.ALREADY_EXIST_EXCEPTION, "Account does not exists");
+        }
+
+        User new_user = new User();
+
+        BeanUtils.copyProperties(details, new_user);
+
+        return this.saveUser(new_user);
+    }
+
+    @Override
+    public synchronized UserModelDetails update(UserModelDetails details) {
+
+        Optional<User> user = this.userRepository.findById(details.getId());
+
+        if (user.isPresent()) {
+            return this.saveUser(user.get());
+        }
+
+        throw new LGDPException(LGDPException.ExceptionType.ACCOUNT_NOT_EXISTS, "Account does not exists");
+    }
+
+    @Override
+    public void delete(long id) {
+
+        Optional<User> userOptional = this.userRepository.findById(id);
+
+        if (userOptional.isPresent()) {
+            this.userRepository.delete(userOptional.get());
+        } else {
+            throw new LGDPException(LGDPException.ExceptionType.ACCOUNT_NOT_EXISTS, "Account does not exists");
+        }
+    }
+
+    /**
+     * Get the user by provided ID.
+     *
+     * @param username
+     * @return
+     */
+    public UserModelDetails findUserByUsername(String username) {
+        User user = this.userRepository.findUserByUsernameAndActiveIsTrue(username)
+                .orElseThrow(() ->
+                        new LGDPException(LGDPException.ExceptionType.ACCOUNT_NOT_EXISTS, "Account does not exists"));
+
+        return user.getUserModelDetails();
+    }
+
+    /**
+     * Save user details in the database
+     *
+     * @param user User Object
+     * @return UserModelDetails
+     */
+    private UserModelDetails saveUser(User user) {
+
+        user = this.userRepository.save(user);
+
+        return user.getUserModelDetails();
+    }
+
 }
