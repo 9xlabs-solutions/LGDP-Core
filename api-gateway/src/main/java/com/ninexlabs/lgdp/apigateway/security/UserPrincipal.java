@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +24,8 @@ public class UserPrincipal implements UserDetails
 	
 	@JsonIgnore
 	private String password;
+
+	private boolean isActive;
 	
 	private String remember_token;
 	
@@ -31,11 +34,11 @@ public class UserPrincipal implements UserDetails
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities()
 	{
-		return null;
+		return authorities;
 	}
-	
-	
-	public UserPrincipal(Long id, String name, String username, String email, String password, Collection<? extends GrantedAuthority> authorities)
+
+
+	public UserPrincipal(Long id, String name, String username, String email, String password, boolean isActive, Collection<? extends GrantedAuthority> authorities)
 	{
 		this.id = id;
 		this.name = name;
@@ -43,20 +46,27 @@ public class UserPrincipal implements UserDetails
 		this.email = email;
 		this.password = password;
 		this.authorities = authorities;
+		this.isActive = isActive;
 	}
 	
 	public static UserPrincipal create(UserModelDetails userModelDetails)
 	{
-		List<GrantedAuthority> authorities = userModelDetails.getRoles().stream().map(role ->
-				new SimpleGrantedAuthority(role.getName())
-		).collect(Collectors.toList());
-		
+
+		List<GrantedAuthority> authorities = new ArrayList<>();
+
+		if (userModelDetails.getRoles() != null) {
+			authorities = userModelDetails.getRoles().stream().map(role ->
+					new SimpleGrantedAuthority(role.getName())
+			).collect(Collectors.toList());
+		}
+
 		return new UserPrincipal(
 				userModelDetails.getId(),
 				userModelDetails.getName(),
 				userModelDetails.getUsername(),
 				userModelDetails.getEmail(),
 				userModelDetails.getPassword(),
+				userModelDetails.getIsActive(),
 				authorities
 		);
 	}
@@ -94,6 +104,30 @@ public class UserPrincipal implements UserDetails
 	@Override
 	public boolean isEnabled()
 	{
-		return true;
+		return isActive;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 }

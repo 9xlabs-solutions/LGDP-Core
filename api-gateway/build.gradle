@@ -22,14 +22,23 @@ repositories {
 
 
 dependencies {
+
+    // in project dependencies
+    implementation project(':commons')
+
+    // core spring dependencies
     implementation('org.springframework.boot:spring-boot-starter-integration')
     implementation('org.springframework.boot:spring-boot-starter-security')
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation('org.springframework.boot:spring-boot-starter-tomcat')
 
-    implementation project(':commons')
+    // third-party dependencies
+    compile('io.jsonwebtoken:jjwt-api:0.10.5')
+    compile('io.jsonwebtoken:jjwt-jackson:0.10.5')
 
     runtimeOnly('mysql:mysql-connector-java')
+    runtimeOnly('io.jsonwebtoken:jjwt-impl:0.10.5')
+
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
     testImplementation('org.springframework.security:spring-security-test')

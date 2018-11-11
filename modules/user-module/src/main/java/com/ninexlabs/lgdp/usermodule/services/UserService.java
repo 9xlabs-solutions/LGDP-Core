@@ -6,6 +6,7 @@ import com.ninexlabs.lgdp.commons.models.UserModelDetails;
 import com.ninexlabs.lgdp.usermodule.repositories.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -17,9 +18,12 @@ public class UserService implements IUserService {
     // user repository
     private UserRepository userRepository;
 
+    private PasswordEncoder passwordEncoder;
+
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -56,10 +60,11 @@ public class UserService implements IUserService {
 
         if (!user.isPresent()) {
 
-
             User new_user = new User();
 
             BeanUtils.copyProperties(details, new_user);
+
+            new_user.setPassword(passwordEncoder.encode(details.getPassword()));
 
             return this.saveUser(new_user);
 

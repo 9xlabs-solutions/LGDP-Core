@@ -1,2 +1,5 @@
-out/production
-out/test
+commons.iml
+.gradle
+/build/*
+/out/*
+!gradle/wrapper/gradle-wrapper.jar

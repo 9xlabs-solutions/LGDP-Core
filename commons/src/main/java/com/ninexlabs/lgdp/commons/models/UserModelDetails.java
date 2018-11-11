@@ -1,11 +1,17 @@
 package com.ninexlabs.lgdp.commons.models;
 
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 public class UserModelDetails extends BaseModelDetails {
 
-    private String name, email, address, contact;
+    private String name;
+
+    private String email;
+
+    private String address;
+
+    private String contact;
 
     private String username;
 
@@ -13,8 +19,11 @@ public class UserModelDetails extends BaseModelDetails {
 
     private Date dob;
 
-    private List<Role> roles;
-    private List<Permission> permission;
+    private boolean isActive;
+
+    private Set<Role> roles;
+
+    private Set<Permission> permission;
 
     public UserModelDetails() {
     }
@@ -67,19 +76,19 @@ public class UserModelDetails extends BaseModelDetails {
         this.dob = dob;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
-    public List<Permission> getPermission() {
+    public Set<Permission> getPermission() {
         return permission;
     }
 
-    public void setPermission(List<Permission> permission) {
+    public void setPermission(Set<Permission> permission) {
         this.permission = permission;
     }
 
@@ -89,5 +98,13 @@ public class UserModelDetails extends BaseModelDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean active) {
+        isActive = active;
     }
 }

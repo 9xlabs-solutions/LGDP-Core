@@ -33,6 +33,10 @@ public class GlobalExceptionHandler {
             case ACCOUNT_NOT_VERIFIED:
                 httpStatus = HttpStatus.PRECONDITION_FAILED;
                 break;
+            case RESOURCE_DOES_NOT_EXISTS:
+            case ACCOUNT_NOT_EXISTS:
+                httpStatus = HttpStatus.NOT_FOUND;
+                break;
             default:
                 httpStatus = HttpStatus.BAD_REQUEST;
         }

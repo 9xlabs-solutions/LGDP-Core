@@ -1,11 +1,12 @@
 package com.ninexlabs.lgdp.commons.models;
 
 
+import org.springframework.beans.BeanUtils;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -31,13 +32,14 @@ public class User extends BaseModel {
 
     private String password;
 
+    @Column(name = "is_active")
     private boolean isActive;
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = Role.class)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles;
 
 //    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
 //    private Set<Permission> permissions = new HashSet<>();
@@ -106,15 +108,10 @@ public class User extends BaseModel {
 //    }
 
     public UserModelDetails getUserModelDetails() {
+
         UserModelDetails userModelDetails = new UserModelDetails();
 
-        userModelDetails.setId(this.getId());
-        userModelDetails.setUsername(this.getUsername());
-        userModelDetails.setName(this.getName());
-        userModelDetails.setEmail(this.getEmail());
-        userModelDetails.setAddress(this.getAddress());
-        userModelDetails.setCreated_at(this.getCreated_at());
-        userModelDetails.setUpdated_at(this.getUpdated_at());
+        BeanUtils.copyProperties(this, userModelDetails);
 
         return userModelDetails;
     }
