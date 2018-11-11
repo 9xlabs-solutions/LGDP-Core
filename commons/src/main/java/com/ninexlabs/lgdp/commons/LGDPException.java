@@ -23,11 +23,21 @@ public class LGDPException extends RuntimeException {
     }
 
     public enum ExceptionType {
+
         INVALID_DATA_EXCEPTION,
+
         ALREADY_EXIST_EXCEPTION,
+
         NOT_AUTHORIZED_EXCEPTION,
+
         WRONG_VERIFICATION_CODE,
+
         ACCOUNT_NOT_VERIFIED,
-        ACCOUNT_ALREADY_VERIFIED
+
+        ACCOUNT_NOT_EXISTS,
+
+        ACCOUNT_ALREADY_VERIFIED,
+
+        RESOURCE_DOES_NOT_EXISTS
     }
 }

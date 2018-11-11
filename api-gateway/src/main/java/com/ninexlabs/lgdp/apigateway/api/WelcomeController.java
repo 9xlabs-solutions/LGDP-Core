@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/v1/welcome")
-public class WelcomeController {
+public class
+WelcomeController {
     private TestService testService;
 
     @Autowired
