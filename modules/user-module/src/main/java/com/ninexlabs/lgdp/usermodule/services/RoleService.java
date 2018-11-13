@@ -2,9 +2,9 @@ package com.ninexlabs.lgdp.usermodule.services;
 
 import com.ninexlabs.lgdp.commons.LGDPException;
 import com.ninexlabs.lgdp.commons.models.RoleModelDetails;
+import com.ninexlabs.lgdp.commons.services.IBaseService;
 import com.ninexlabs.lgdp.usermodule.models.Role;
 import com.ninexlabs.lgdp.usermodule.repositories.RoleRepository;
-import com.ninexlabs.lgdp.usermodule.services.interfaces.IRoleService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class RoleService implements IRoleService {
+public class RoleService implements IBaseService<RoleModelDetails> {
 
     private final RoleRepository roleRepository;
 
@@ -24,7 +24,7 @@ public class RoleService implements IRoleService {
     }
 
     @Override
-    public List<RoleModelDetails> index() {
+    public Iterable<RoleModelDetails> index() {
 
        Iterable<Role> roles = this.roleRepository.findAll();
 

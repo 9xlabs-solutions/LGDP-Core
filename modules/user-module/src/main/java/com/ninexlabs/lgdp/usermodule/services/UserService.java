@@ -1,10 +1,10 @@
 package com.ninexlabs.lgdp.usermodule.services;
 
 import com.ninexlabs.lgdp.commons.LGDPException;
-import com.ninexlabs.lgdp.usermodule.models.User;
 import com.ninexlabs.lgdp.commons.models.UserModelDetails;
+import com.ninexlabs.lgdp.commons.services.IBaseService;
+import com.ninexlabs.lgdp.usermodule.models.User;
 import com.ninexlabs.lgdp.usermodule.repositories.UserRepository;
-import com.ninexlabs.lgdp.usermodule.services.interfaces.IUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @Component
-public class UserService implements IUserService {
+public class UserService implements IBaseService<UserModelDetails> {
 
     // user repository
     private UserRepository userRepository;
@@ -28,7 +28,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public Iterable<UserModelDetails> all() {
+    public Iterable<UserModelDetails> index() {
 
         Iterable<User> users = this.userRepository.findAll();
 
@@ -42,7 +42,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserModelDetails get(long id) {
+    public UserModelDetails show(Long id) {
 
         Optional<User> user = this.userRepository.findById(id);
 
@@ -87,7 +87,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(Long id) {
 
         Optional<User> userOptional = this.userRepository.findById(id);
 
