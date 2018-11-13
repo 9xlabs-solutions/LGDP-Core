@@ -38,6 +38,8 @@ public class LGDPException extends RuntimeException {
 
         ACCOUNT_ALREADY_VERIFIED,
 
-        RESOURCE_DOES_NOT_EXISTS
+        RESOURCE_DOES_NOT_EXISTS,
+
+        RESOURCE_ALREADY_EXISTS
     }
 }

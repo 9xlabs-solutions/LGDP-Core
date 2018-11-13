@@ -93,7 +93,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         System.out.println("WebSecurityConfiguration.configure");
 
-        //web.ignoring().antMatchers(HttpMethod.POST, "/auth/login");
+        web.ignoring().antMatchers(HttpMethod.POST, "/auth/login");
     }
 
     @Bean(BeanIds.AUTHENTICATION_MANAGER)

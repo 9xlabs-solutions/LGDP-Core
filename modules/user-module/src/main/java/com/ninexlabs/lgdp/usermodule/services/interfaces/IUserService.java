@@ -1,4 +1,4 @@
-package com.ninexlabs.lgdp.usermodule.services;
+package com.ninexlabs.lgdp.usermodule.services.interfaces;
 
 import com.ninexlabs.lgdp.commons.models.UserModelDetails;
 

@@ -21,9 +21,9 @@ public class UserModelDetails extends BaseModelDetails {
 
     private boolean isActive;
 
-    private Set<Role> roles;
+    private Set<RoleModelDetails> roles;
 
-    private Set<Permission> permission;
+    private Set<PermissionModelDetails> permission;
 
     public UserModelDetails() {
     }
@@ -76,22 +76,23 @@ public class UserModelDetails extends BaseModelDetails {
         this.dob = dob;
     }
 
-    public Set<Role> getRoles() {
+    public Set<RoleModelDetails> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(Set<RoleModelDetails> roles) {
         this.roles = roles;
     }
 
-    public Set<Permission> getPermission() {
+    public Set<PermissionModelDetails> getPermission() {
         return permission;
     }
 
-    public void setPermission(Set<Permission> permission) {
+    public void setPermission(Set<PermissionModelDetails> permission) {
         this.permission = permission;
     }
 
+//    @JsonIgnore
     public String getPassword() {
         return password;
     }

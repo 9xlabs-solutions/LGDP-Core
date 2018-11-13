@@ -79,7 +79,7 @@ public class AuthenticationController {
 
         // check for the returned object
         if (userModelDetails == null) {
-            throw new LGDPException(LGDPException.ExceptionType.INVALID_DATA_EXCEPTION, "FUDGE");
+            throw new LGDPException(LGDPException.ExceptionType.INVALID_DATA_EXCEPTION, "Failed to register user.");
         }
 
         // return the details of the newly created user.

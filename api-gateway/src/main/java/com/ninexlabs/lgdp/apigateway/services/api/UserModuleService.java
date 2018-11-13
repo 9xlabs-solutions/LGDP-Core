@@ -3,6 +3,8 @@ package com.ninexlabs.lgdp.apigateway.services.api;
 import com.ninexlabs.lgdp.apigateway.requests.auth.LoginRequest;
 import com.ninexlabs.lgdp.apigateway.requests.auth.SignupRequest;
 import com.ninexlabs.lgdp.commons.models.UserModelDetails;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -17,15 +19,13 @@ import java.util.List;
 @Service
 public class UserModuleService {
 
+    private Logger logger = LoggerFactory.getLogger(UserModuleService.class);
+
     // Rest Template for inter modular communications
     private RestTemplate restTemplate = new RestTemplate();
 
     @Value("${modules.user-module}")
     private String URL;
-
-    public UserModuleService() {
-        System.out.println("AUTO URL  ----------> " + URL);
-    }
 
     public UserModelDetails getUserDetails(String username) {
 

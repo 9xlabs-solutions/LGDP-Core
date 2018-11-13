@@ -15,10 +15,10 @@ public class JWTTokenProvider {
     private static final Logger logger = LoggerFactory.getLogger(JWTTokenProvider.class);
 
     @Value("${app.jwtSecret}")
-    private String JWTSecret = "aac9412ae09d7e5de6faab659503025467f959fb9b02123ac11aaa51bbe13c82d18dfcab4add6c1947134c68c46964878716d65c0b72e757517a8d3dceaae977";
+    private String JWTSecret;
 
     @Value("${app.jwtExpirationInMs}")
-    private int JWTExpirationInMs = 604800000;
+    private int JWTExpirationInMs;
 
     JWTTokenProvider() {
     }

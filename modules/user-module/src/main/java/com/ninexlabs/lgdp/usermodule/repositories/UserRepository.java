@@ -1,6 +1,6 @@
 package com.ninexlabs.lgdp.usermodule.repositories;
 
-import com.ninexlabs.lgdp.commons.models.User;
+import com.ninexlabs.lgdp.usermodule.models.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = VersionService.BASE_PATH)
+@RequestMapping(value = VersionService.BASE_USER_PATH)
 public class LoginController
 {
 

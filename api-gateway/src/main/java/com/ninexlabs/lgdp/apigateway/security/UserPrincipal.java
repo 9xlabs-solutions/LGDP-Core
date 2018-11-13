@@ -1,6 +1,5 @@
 package com.ninexlabs.lgdp.apigateway.security;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ninexlabs.lgdp.commons.models.UserModelDetails;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,8 +20,7 @@ public class UserPrincipal implements UserDetails
 	private String username;
 	
 	private String email;
-	
-	@JsonIgnore
+
 	private String password;
 
 	private boolean isActive;

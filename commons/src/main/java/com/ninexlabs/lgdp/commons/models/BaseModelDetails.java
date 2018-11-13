@@ -2,6 +2,7 @@ package com.ninexlabs.lgdp.commons.models;
 
 import java.util.Date;
 
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BaseModelDetails
 {
 	

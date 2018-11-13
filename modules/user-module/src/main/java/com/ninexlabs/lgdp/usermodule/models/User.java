@@ -1,12 +1,16 @@
-package com.ninexlabs.lgdp.commons.models;
+package com.ninexlabs.lgdp.usermodule.models;
 
 
+import com.ninexlabs.lgdp.commons.models.BaseModel;
+import com.ninexlabs.lgdp.commons.models.RoleModelDetails;
+import com.ninexlabs.lgdp.commons.models.UserModelDetails;
 import org.springframework.beans.BeanUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -91,8 +95,15 @@ public class User extends BaseModel {
         return username;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Set<RoleModelDetails> getRoles() {
+
+        Set<RoleModelDetails> details = new HashSet<>();
+
+        for (Role role : roles) {
+            details.add(role.getRoleModelDetails());
+        }
+
+        return details;
     }
 
     public void setRoles(Set<Role> roles) {
@@ -107,10 +118,17 @@ public class User extends BaseModel {
 //        this.permissions = permissions;
 //    }
 
+    /**
+     * Get the user roles from the user models
+     *
+     * @return
+     */
     public UserModelDetails getUserModelDetails() {
 
+        // create a new user model
         UserModelDetails userModelDetails = new UserModelDetails();
 
+        // use the bean utils to copy to the class props
         BeanUtils.copyProperties(this, userModelDetails);
 
         return userModelDetails;

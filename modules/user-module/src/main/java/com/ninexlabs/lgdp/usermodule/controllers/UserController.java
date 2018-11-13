@@ -1,6 +1,6 @@
 package com.ninexlabs.lgdp.usermodule.controllers;
 
-import com.ninexlabs.lgdp.commons.models.User;
+import com.ninexlabs.lgdp.usermodule.models.User;
 import com.ninexlabs.lgdp.commons.models.UserModelDetails;
 import com.ninexlabs.lgdp.usermodule.services.UserService;
 import com.ninexlabs.lgdp.usermodule.services.VersionService;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(path = VersionService.BASE_PATH)
+@RequestMapping(path = VersionService.BASE_USER_PATH)
 public class UserController {
 
     private UserService userService;

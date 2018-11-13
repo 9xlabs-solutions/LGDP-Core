@@ -1,9 +1,10 @@
 package com.ninexlabs.lgdp.usermodule.services;
 
 import com.ninexlabs.lgdp.commons.LGDPException;
-import com.ninexlabs.lgdp.commons.models.User;
+import com.ninexlabs.lgdp.usermodule.models.User;
 import com.ninexlabs.lgdp.commons.models.UserModelDetails;
 import com.ninexlabs.lgdp.usermodule.repositories.UserRepository;
+import com.ninexlabs.lgdp.usermodule.services.interfaces.IUserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
