@@ -13,10 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = VersionService.BASE_USER_PATH)
-public class LoginController
-{
+public class LoginController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public LoginController(UserService userService) {
@@ -29,8 +28,7 @@ public class LoginController
      * @return UserModelDetails
      */
     @RequestMapping(method = RequestMethod.POST, value = "login")
-    public ResponseEntity<UserModelDetails> findUserByUsername(@RequestBody UserModelDetails username)
-    {
+    public ResponseEntity<UserModelDetails> findUserByUsername(@RequestBody UserModelDetails username) {
         UserModelDetails user = this.userService.findUserByUsername(username.getUsername());
 
         return new ResponseEntity<>(user, HttpStatus.OK);

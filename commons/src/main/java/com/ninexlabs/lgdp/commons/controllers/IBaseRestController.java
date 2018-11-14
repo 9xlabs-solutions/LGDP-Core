@@ -2,7 +2,7 @@ package com.ninexlabs.lgdp.commons.controllers;
 
 import org.springframework.http.ResponseEntity;
 
-public interface IBaseController<T>
+public interface IBaseRestController<T>
 {
 
     /**
@@ -34,7 +34,7 @@ public interface IBaseController<T>
      * @param object object to update
      * @return Object to update
      */
-    ResponseEntity edit(T object);
+    ResponseEntity update(T object);
 
     /**
      * Delete an resource from database.

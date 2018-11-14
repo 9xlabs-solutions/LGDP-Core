@@ -1,6 +1,6 @@
 package com.ninexlabs.lgdp.usermodule.controllers;
 
-import com.ninexlabs.lgdp.commons.controllers.IBaseController;
+import com.ninexlabs.lgdp.commons.controllers.IBaseRestController;
 import com.ninexlabs.lgdp.commons.models.RoleModelDetails;
 import com.ninexlabs.lgdp.usermodule.services.RoleService;
 import com.ninexlabs.lgdp.usermodule.services.VersionService;
@@ -13,12 +13,12 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = VersionService.BASE_ROLE_PATH)
-public class RoleController implements IBaseController<RoleModelDetails> {
+public class RoleRestController implements IBaseRestController<RoleModelDetails> {
 
     private final RoleService roleService;
 
     @Autowired
-    public RoleController(RoleService roleService) {
+    public RoleRestController(RoleService roleService) {
         this.roleService = roleService;
     }
 
@@ -42,7 +42,7 @@ public class RoleController implements IBaseController<RoleModelDetails> {
 
     @Override
     @RequestMapping(method = RequestMethod.PATCH, path = "{id}")
-    public ResponseEntity<RoleModelDetails> edit(@RequestBody @Valid RoleModelDetails details) {
+    public ResponseEntity<RoleModelDetails> update(@RequestBody @Valid RoleModelDetails details) {
         return new ResponseEntity<>(this.roleService.update(details), HttpStatus.OK);
     }
 

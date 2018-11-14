@@ -1,6 +1,6 @@
 package com.ninexlabs.lgdp.usermodule.controllers;
 
-import com.ninexlabs.lgdp.usermodule.models.User;
+import com.ninexlabs.lgdp.commons.controllers.IBaseRestController;
 import com.ninexlabs.lgdp.commons.models.UserModelDetails;
 import com.ninexlabs.lgdp.usermodule.services.UserService;
 import com.ninexlabs.lgdp.usermodule.services.VersionService;
@@ -13,9 +13,9 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = VersionService.BASE_USER_PATH)
-public class UserController {
+public class UserController implements IBaseRestController<UserModelDetails> {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UserController(UserService userRepository) {
@@ -28,8 +28,8 @@ public class UserController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, path = "")
-    public Iterable index() {
-        return this.userService.all();
+    public ResponseEntity<Iterable<UserModelDetails>> index() {
+        return new ResponseEntity<>(this.userService.index(), HttpStatus.OK) ;
     }
 
     /**
@@ -39,10 +39,8 @@ public class UserController {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, path = "{id}")
-    public ResponseEntity<UserModelDetails> show(@PathVariable long id) {
-        UserModelDetails userModelDetails = this.userService.get(id);
-
-        return new ResponseEntity<>(userModelDetails, HttpStatus.OK);
+    public ResponseEntity<UserModelDetails> show(@PathVariable Long id) {
+        return new ResponseEntity<>(this.userService.show(id), HttpStatus.OK);
     }
 
     /**
@@ -53,23 +51,17 @@ public class UserController {
      */
     @RequestMapping(method = RequestMethod.POST, path = "")
     public ResponseEntity<UserModelDetails> store(@RequestBody @Valid UserModelDetails request) {
-        UserModelDetails userModelDetails = this.userService.store(request);
-
-        return new ResponseEntity<>(userModelDetails, HttpStatus.CREATED);
+        return new ResponseEntity<>(this.userService.store(request), HttpStatus.CREATED);
     }
 
     /**
      * Update the given user
      *
-     * @param request
      * @return
      */
     @RequestMapping(method = RequestMethod.PATCH, path = "{id}")
-    public ResponseEntity<UserModelDetails> update(@PathVariable("id") UserModelDetails targetUser, @RequestBody User request) {
-
-        UserModelDetails userModelDetails = this.userService.update(targetUser);
-
-        return new ResponseEntity<>(userModelDetails, HttpStatus.OK);
+    public ResponseEntity<UserModelDetails> update(@PathVariable("id") UserModelDetails targetUser) {
+        return new ResponseEntity<>(this.userService.update(targetUser), HttpStatus.OK);
     }
 
     /**
@@ -79,14 +71,8 @@ public class UserController {
      * @return
      */
     @RequestMapping(method = RequestMethod.DELETE, path = "{id}")
-    public ResponseEntity<Void> destroy(@PathVariable("id") Integer id) {
+    public void delete(@PathVariable("id") Long id) {
         this.userService.delete(id);
-
-        return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    /**
-     * UTIL Methods
-     */
 
 }

@@ -34,6 +34,7 @@ public class UserModuleService {
         LoginRequest loginRequest = new LoginRequest();
 
         loginRequest.setUsername(username);
+        //loginRequest.setPassword();
 
         return this.restTemplate.postForObject(loginURL, loginRequest, UserModelDetails.class);
 
