@@ -5,6 +5,8 @@ import org.springframework.http.ResponseEntity;
 public interface IBaseRestController<T>
 {
 
+    // Todo : extend this from separate classes service classes.
+
     /**
      * List all resources.
      *
@@ -34,7 +36,7 @@ public interface IBaseRestController<T>
      * @param object object to update
      * @return Object to update
      */
-    ResponseEntity update(T object);
+    ResponseEntity<T> update(T object);
 
     /**
      * Delete an resource from database.
