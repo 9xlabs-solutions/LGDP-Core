@@ -2,8 +2,7 @@ package com.ninexlabs.lgdp.commons.controllers;
 
 import org.springframework.http.ResponseEntity;
 
-public interface IBaseRestController<T>
-{
+public interface IBaseRestController<T> {
 
     // Todo : extend this from separate classes service classes.
 

@@ -105,11 +105,20 @@ public class UserService implements IBaseService<UserModelDetails> {
      * @return
      */
     public UserModelDetails findUserByUsername(String username) {
-        User user = this.userRepository.findUserByUsernameAndIsActiveIsTrue(username)
-                .orElseThrow(() ->
-                        new LGDPException(LGDPException.ExceptionType.ACCOUNT_NOT_EXISTS, "Account does not exists"));
 
-        return user.getUserModelDetails();
+        Optional<User> user = this.userRepository.findUserByUsername(username);
+
+        if (user.isPresent()) {
+
+            if (user.get().getIsActive()) {
+                return user.get().getUserModelDetails();
+            }
+
+            throw new LGDPException(LGDPException.ExceptionType.ACCOUNT_NOT_VERIFIED, "Account does not exists or not activated");
+
+        }
+
+        throw new LGDPException(LGDPException.ExceptionType.ACCOUNT_NOT_EXISTS, "Account does not exists");
     }
 
     /**

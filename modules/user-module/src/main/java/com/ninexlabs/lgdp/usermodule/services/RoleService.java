@@ -26,9 +26,9 @@ public class RoleService implements IBaseService<RoleModelDetails> {
     @Override
     public Iterable<RoleModelDetails> index() {
 
-       Iterable<Role> roles = this.roleRepository.findAll();
+        Iterable<Role> roles = this.roleRepository.findAll();
 
-       List<RoleModelDetails> roleModelDetails = new ArrayList<>();
+        List<RoleModelDetails> roleModelDetails = new ArrayList<>();
 
         for (Role role : roles) {
             roleModelDetails.add(role.getRoleModelDetails());
@@ -42,8 +42,7 @@ public class RoleService implements IBaseService<RoleModelDetails> {
 
         Optional<Role> role = this.roleRepository.findById(id);
 
-        if (!role.isPresent())
-        {
+        if (!role.isPresent()) {
             throw new LGDPException(LGDPException.ExceptionType.RESOURCE_DOES_NOT_EXISTS, "Role does not exists");
         }
 
@@ -84,8 +83,7 @@ public class RoleService implements IBaseService<RoleModelDetails> {
 
         Optional<Role> role = this.roleRepository.findById(id);
 
-        if (!role.isPresent())
-        {
+        if (!role.isPresent()) {
             throw new LGDPException(LGDPException.ExceptionType.RESOURCE_DOES_NOT_EXISTS, "Role does not exists");
         }
 
@@ -98,8 +96,7 @@ public class RoleService implements IBaseService<RoleModelDetails> {
      * @param role
      * @return
      */
-    private RoleModelDetails saveRole(Role role)
-    {
+    private RoleModelDetails saveRole(Role role) {
         role = this.roleRepository.save(role);
 
         return role.getRoleModelDetails();

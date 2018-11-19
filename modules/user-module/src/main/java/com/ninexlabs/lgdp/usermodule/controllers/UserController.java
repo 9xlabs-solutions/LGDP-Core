@@ -29,7 +29,7 @@ public class UserController implements IBaseRestController<UserModelDetails> {
      */
     @RequestMapping(method = RequestMethod.GET, path = "")
     public ResponseEntity<Iterable<UserModelDetails>> index() {
-        return new ResponseEntity<>(this.userService.index(), HttpStatus.OK) ;
+        return new ResponseEntity<>(this.userService.index(), HttpStatus.OK);
     }
 
     /**

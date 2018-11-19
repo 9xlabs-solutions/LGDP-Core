@@ -9,39 +9,38 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CustomUserService implements UserDetailsService
-{
+public class CustomUserService implements UserDetailsService {
 
-	// user module service
-	private UserModuleService userModuleService;
+    // user module service
+    private UserModuleService userModuleService;
 
-	@Autowired
-	public CustomUserService(UserModuleService userModuleService) {
-		this.userModuleService = userModuleService;
-	}
+    @Autowired
+    public CustomUserService(UserModuleService userModuleService) {
+        this.userModuleService = userModuleService;
+    }
 
-	/**
-	 * Get the user from username
-	 *
-	 * @param username
-	 * @return
-	 * @throws UsernameNotFoundException
-	 */
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UserModelDetails userModelDetails = this.userModuleService.getUserDetails(username);
+    /**
+     * Get the user from username
+     *
+     * @param username
+     * @return
+     * @throws UsernameNotFoundException
+     */
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserModelDetails userModelDetails = this.userModuleService.getUserDetailsByUsernameForLogin(username);
 
-		return UserPrincipal.create(userModelDetails);
-	}
+        return UserPrincipal.create(userModelDetails);
+    }
 
-	/**
-	 * Since JWT only decodes and get the ID, this method fetches user details from ID
-	 *
-	 * @param id
-	 * @return
-	 * @throws UsernameNotFoundException
-	 */
-	public UserDetails loadUserById(Long id) throws UsernameNotFoundException {
-		return UserPrincipal.create(this.userModuleService.loadUserById(id));
-	}
+    /**
+     * Since JWT only decodes and get the ID, this method fetches user details from ID
+     *
+     * @param id
+     * @return
+     * @throws UsernameNotFoundException
+     */
+    public UserDetails loadUserById(Long id) throws UsernameNotFoundException {
+        return UserPrincipal.create(this.userModuleService.loadUserById(id));
+    }
 }

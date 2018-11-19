@@ -92,7 +92,7 @@ public class UserModelDetails extends BaseModelDetails {
         this.permission = permission;
     }
 
-//    @JsonIgnore
+    //    @JsonIgnore
     public String getPassword() {
         return password;
     }
