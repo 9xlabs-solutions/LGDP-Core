@@ -4,7 +4,7 @@ import com.ninexlabs.lgdp.apigateway.requests.auth.LoginRequest;
 import com.ninexlabs.lgdp.apigateway.requests.auth.SignupRequest;
 import com.ninexlabs.lgdp.apigateway.responses.auth.JWTAuthenticationResponse;
 import com.ninexlabs.lgdp.apigateway.security.JWTTokenProvider;
-import com.ninexlabs.lgdp.apigateway.services.api.UserModuleService;
+import com.ninexlabs.lgdp.apigateway.services.api.AuthenticationService;
 import com.ninexlabs.lgdp.commons.LGDPException;
 import com.ninexlabs.lgdp.commons.models.UserModelDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,14 +32,14 @@ public class AuthenticationController {
     private final JWTTokenProvider jwtTokenProvider;
 
     // User Model Service
-    private UserModuleService userModuleService;
+    private AuthenticationService authenticationService;
 
     @Autowired
     public AuthenticationController(AuthenticationManager authenticationManager, JWTTokenProvider jwtTokenProvider,
-                                    UserModuleService userModuleService) {
+                                    AuthenticationService authenticationService) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenProvider = jwtTokenProvider;
-        this.userModuleService = userModuleService;
+        this.authenticationService = authenticationService;
     }
 
     /**
@@ -75,7 +75,7 @@ public class AuthenticationController {
     public ResponseEntity<UserModelDetails> create(@Valid @RequestBody SignupRequest request) {
 
         // create the user using the user module through the user module service ( internal api )
-        UserModelDetails userModelDetails = this.userModuleService.create(request);
+        UserModelDetails userModelDetails = this.authenticationService.create(request);
 
         // check for the returned object
         if (userModelDetails == null) {

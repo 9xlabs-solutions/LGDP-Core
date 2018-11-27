@@ -16,9 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(value = LGDPException.class)
-    public ResponseEntity<Void> defaultErrorHandler(HttpServletRequest request, LGDPException ex) {
+    public ResponseEntity defaultErrorHandler(HttpServletRequest request, LGDPException ex) {
 
         HttpStatus httpStatus;
+
+        String message = ex.getMessage();
 
         switch (ex.getExceptionType()) {
             case ALREADY_EXIST_EXCEPTION:
@@ -34,7 +36,9 @@ public class GlobalExceptionHandler {
                 httpStatus = HttpStatus.BAD_REQUEST;
                 break;
             case ACCOUNT_NOT_VERIFIED:
-                httpStatus = HttpStatus.PRECONDITION_FAILED;
+                httpStatus = HttpStatus.UNAUTHORIZED;
+
+                message = "Account not verified by the admins";
                 break;
             case RESOURCE_DOES_NOT_EXISTS:
             case ACCOUNT_NOT_EXISTS:
@@ -44,11 +48,11 @@ public class GlobalExceptionHandler {
                 httpStatus = HttpStatus.BAD_REQUEST;
         }
 
-        return ResponseEntity.status(httpStatus).header("error-description", ex.getMessage()).body(null);
+        return ResponseEntity.status(httpStatus).header("error-description", message).body(null);
     }
 
     @ExceptionHandler(value = BadCredentialsException.class)
-    public ResponseEntity<Void> authenticationErrorHandler(HttpServletRequest request, BadCredentialsException e) {
+    public ResponseEntity authenticationErrorHandler(HttpServletRequest request, BadCredentialsException e) {
 
         HttpStatus httpStatus = HttpStatus.UNAUTHORIZED;
 
