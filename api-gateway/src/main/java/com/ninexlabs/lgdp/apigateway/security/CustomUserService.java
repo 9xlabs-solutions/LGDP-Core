@@ -1,6 +1,6 @@
 package com.ninexlabs.lgdp.apigateway.security;
 
-import com.ninexlabs.lgdp.apigateway.services.api.UserModuleService;
+import com.ninexlabs.lgdp.apigateway.services.api.AuthenticationService;
 import com.ninexlabs.lgdp.commons.models.UserModelDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,11 +12,11 @@ import org.springframework.stereotype.Component;
 public class CustomUserService implements UserDetailsService {
 
     // user module service
-    private UserModuleService userModuleService;
+    private AuthenticationService authenticationService;
 
     @Autowired
-    public CustomUserService(UserModuleService userModuleService) {
-        this.userModuleService = userModuleService;
+    public CustomUserService(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
     }
 
     /**
@@ -28,7 +28,7 @@ public class CustomUserService implements UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserModelDetails userModelDetails = this.userModuleService.getUserDetailsByUsernameForLogin(username);
+        UserModelDetails userModelDetails = this.authenticationService.getUserDetailsByUsernameForLogin(username);
 
         return UserPrincipal.create(userModelDetails);
     }
@@ -41,6 +41,6 @@ public class CustomUserService implements UserDetailsService {
      * @throws UsernameNotFoundException
      */
     public UserDetails loadUserById(Long id) throws UsernameNotFoundException {
-        return UserPrincipal.create(this.userModuleService.loadUserById(id));
+        return UserPrincipal.create(this.authenticationService.loadUserById(id));
     }
 }

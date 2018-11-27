@@ -19,9 +19,9 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @Service
-public class UserModuleService {
+public class AuthenticationService {
 
-    private Logger logger = LoggerFactory.getLogger(UserModuleService.class);
+    private Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
     // Rest Template for inter modular communications
     private RestTemplate restTemplate;
@@ -29,7 +29,7 @@ public class UserModuleService {
     @Value("${modules.user-module}")
     private String URL;
 
-    public UserModuleService(RestTemplateBuilder restTemplateBuilder) {
+    public AuthenticationService(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder
                 .errorHandler(new RestTemplateResponseErrorHandler())
                 .build();
