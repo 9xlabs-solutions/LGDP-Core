@@ -3,7 +3,6 @@ package com.ninexlabs.lgdp.usermodule.controllers;
 import com.ninexlabs.lgdp.commons.controllers.IBaseRestController;
 import com.ninexlabs.lgdp.commons.models.UserModelDetails;
 import com.ninexlabs.lgdp.usermodule.services.UserService;
-import com.ninexlabs.lgdp.usermodule.services.VersionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(path = VersionService.BASE_USER_PATH)
+@RequestMapping(path = "/api/v1/users/")
 public class UserController implements IBaseRestController<UserModelDetails> {
 
     private final UserService userService;
@@ -29,7 +28,7 @@ public class UserController implements IBaseRestController<UserModelDetails> {
      */
     @RequestMapping(method = RequestMethod.GET, path = "")
     public ResponseEntity<Iterable<UserModelDetails>> index() {
-        return new ResponseEntity<>(this.userService.index(), HttpStatus.OK) ;
+        return new ResponseEntity<>(this.userService.index(), HttpStatus.OK);
     }
 
     /**
@@ -39,7 +38,7 @@ public class UserController implements IBaseRestController<UserModelDetails> {
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, path = "{id}")
-    public ResponseEntity<UserModelDetails> show(@PathVariable Long id) {
+    public ResponseEntity<UserModelDetails> show(@PathVariable(value = "id") Long id) {
         return new ResponseEntity<>(this.userService.show(id), HttpStatus.OK);
     }
 

@@ -9,25 +9,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/users")
-public class VersionController
-{
-	
-	private VersionService versionService;
-	
-	@Autowired
-	public VersionController(VersionService versionService)
-	{
-		this.versionService = versionService;
-	}
-	
-	/**
-	 * Get the version information of the module
-	 *
-	 * @return Version
-	 */
-	@RequestMapping(method = RequestMethod.GET, value = "/version")
-	public Version index()
-	{
-		return this.versionService.getVersion();
-	}
+public class VersionController {
+
+    private VersionService versionService;
+
+    @Autowired
+    public VersionController(VersionService versionService) {
+        this.versionService = versionService;
+    }
+
+    /**
+     * Get the version information of the module
+     *
+     * @return Version
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/version")
+    public Version index() {
+        return this.versionService.getVersion();
+    }
 }

@@ -14,16 +14,15 @@ import java.io.IOException;
 @Component
 public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-	private static final Logger logger = LoggerFactory.getLogger(JWTAuthenticationEntryPoint.class);
-	
-	@Override
-	public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
-			throws IOException, ServletException
-	{
-	
-		logger.debug("Responding with unauthorized error. Message - {}", authException.getMessage());
-		
-		response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Sorry, You're not authorized to access this resource.");
-		
-	}
+    private static final Logger logger = LoggerFactory.getLogger(JWTAuthenticationEntryPoint.class);
+
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
+            throws IOException, ServletException {
+
+        logger.debug("Responding with unauthorized error. Message - {}", authException.getMessage());
+
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Sorry, You're not authorized to access this resource.");
+
+    }
 }

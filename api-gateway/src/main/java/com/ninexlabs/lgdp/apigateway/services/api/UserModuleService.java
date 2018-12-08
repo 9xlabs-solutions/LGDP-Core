@@ -2,11 +2,13 @@ package com.ninexlabs.lgdp.apigateway.services.api;
 
 import com.ninexlabs.lgdp.apigateway.requests.auth.LoginRequest;
 import com.ninexlabs.lgdp.apigateway.requests.auth.SignupRequest;
+import com.ninexlabs.lgdp.commons.exceptions.RestTemplateResponseErrorHandler;
 import com.ninexlabs.lgdp.commons.models.UserModelDetails;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -17,24 +19,35 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @Service
-public class UserModuleService {
+public class AuthenticationService {
 
-    private Logger logger = LoggerFactory.getLogger(UserModuleService.class);
+    private Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
     // Rest Template for inter modular communications
-    private RestTemplate restTemplate = new RestTemplate();
+    private RestTemplate restTemplate;
 
     @Value("${modules.user-module}")
     private String URL;
 
-    public UserModelDetails getUserDetails(String username) {
+    public AuthenticationService(RestTemplateBuilder restTemplateBuilder) {
+        this.restTemplate = restTemplateBuilder
+                .errorHandler(new RestTemplateResponseErrorHandler())
+                .build();
+    }
+
+    /**
+     * Get the user login information from User Module
+     *
+     * @param username username of the user
+     * @return user details
+     */
+    public UserModelDetails getUserDetailsByUsernameForLogin(String username) {
 
         String loginURL = URL + "/api/v1/users/login/";
 
         LoginRequest loginRequest = new LoginRequest();
 
         loginRequest.setUsername(username);
-        //loginRequest.setPassword();
 
         return this.restTemplate.postForObject(loginURL, loginRequest, UserModelDetails.class);
 
@@ -46,8 +59,7 @@ public class UserModuleService {
      * @param userModelDetails
      * @return
      */
-    public UserModelDetails create(SignupRequest userModelDetails)
-    {
+    public UserModelDetails create(SignupRequest userModelDetails) {
 
         String registerURL = URL + "/api/v1/users/";
 

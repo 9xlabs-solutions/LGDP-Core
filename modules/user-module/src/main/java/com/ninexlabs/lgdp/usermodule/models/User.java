@@ -95,19 +95,21 @@ public class User extends BaseModel {
         return username;
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public Set<RoleModelDetails> getRoles() {
 
         Set<RoleModelDetails> details = new HashSet<>();
 
-        for (Role role : roles) {
-            details.add(role.getRoleModelDetails());
+        if (roles != null) {
+            for (Role role : roles) {
+                details.add(role.getRoleModelDetails());
+            }
         }
 
         return details;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
     }
 
 //    public Set<Permission> getPermissions() {
@@ -117,6 +119,10 @@ public class User extends BaseModel {
 //    public void setPermissions(Set<Permission> permissions) {
 //        this.permissions = permissions;
 //    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
     /**
      * Get the user roles from the user models
